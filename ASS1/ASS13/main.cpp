@@ -9,14 +9,14 @@ using namespace std;
 
 int main() {
     int choice = 0;
-
+// them dong này vào branch moi và commit và push và merge 
     do {
         system("cls"); // xóa màn hình
         cout << "===== OOP Advanced Exercises =====\n";
-        cout << "1. Exercise 1 - Diamond Problem\n";
-        cout << "2. Exercise 2 - Method Overriding & Access Level\n";
-        cout << "3. Exercise 3 - Constructor/Destructor & Virtual Destructor\n";
-        cout << "4. Exercise 4 - Object Slicing\n";
+        cout << "1. Ex 1 - Diamond Problem\n";
+        cout << "2. Ex 2 - Method Overriding & Access Level\n";
+        cout << "3. Ex 3 - Constructor/Destructor & Virtual Destructor\n";
+        cout << "4. Ex 4 - Object Slicing\n";
         cout << "0. Exit\n";
         cout << "Select exercise: ";
         cin >> choice;

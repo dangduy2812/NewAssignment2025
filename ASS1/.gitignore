@@ -1,0 +1,65 @@
+# ============================
+# Build folders
+# ============================
+build/
+cmake-build-debug/
+cmake-build-release/
+
+# ============================
+# Compiled binaries
+# ============================
+*.exe
+*.dll
+*.so
+*.a
+*.lib
+*.obj
+*.o
+
+# ============================
+# CMake generated files
+# ============================
+CMakeFiles/
+CMakeCache.txt
+cmake_install.cmake
+Makefile
+*.cmake
+*.ninja
+*.ninja_deps
+*.ninja_log
+
+# ============================
+# MSYS2 / MinGW files
+# ============================
+*.stackdump
+
+# ============================
+# Logs & temp
+# ============================
+*.log
+*.tmp
+*.bak
+*.swp
+*.swo
+
+# ============================
+# VSCode settings (keep workspace clean)
+# ============================
+.vscode/
+.vscode/*
+
+# ============================
+# OS system files
+# ============================
+Thumbs.db
+Desktop.ini
+
+# ============================
+# Project-specific temp files
+# ============================
+playlist.txt
+playlist.json
+playlist.json.tmp
+settings.bin
+test.wav
+ASS1/NewAssignment2025/

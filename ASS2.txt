@@ -1,0 +1,234 @@
+#include <iostream>
+#include <string>
+#include <limits>
+using namespace std;
+
+// ======================================================
+// Tien ich dung chung
+// ======================================================
+void clearScreen() {
+    system("cls"); // Xoa man hinh (Windows)
+}
+
+void pauseScreen() {
+    cout << "\nNhan Enter de tiep tuc...";
+    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+}
+
+// ======================================================
+// EXERCISE 1 - Risks from Uninitialized Variables
+// ======================================================
+
+/*
+    Scenario:
+    - Ứng dụng đọc âm lượng khởi động từ file cấu hình.
+    - Nếu file bị hỏng hoặc không tồn tại, biến chưa được khởi tạo có thể chứa giá trị rác.
+    - Hậu quả: Âm lượng có thể tăng đột ngột lên mức tối đa.
+
+    Fix:
+    - Luon khoi tao bien voi gia tri mac dinh an toan (vi du: 20)
+    - Neu doc file that bai thi giu nguyen gia tri mac dinh.
+*/
+
+bool loadVolumeFromConfig(int& volume) {
+    // Gia lap: doc file cau hinh that bai
+    return false;
+}
+
+void setHardwareVolume(int volume) {
+    cout << "[HARDWARE] Volume set to: " << volume << endl;
+}
+
+void Exercise1() {
+    clearScreen();
+    cout << "===== Exercise 1: Uninitialized Configuration Variable =====\n\n";
+
+    // Loi ban dau: int startupVolume;  (chua khoi tao)
+    // Cach sua: khoi tao gia tri mac dinh an toan
+    int startupVolume = 20;
+
+    bool ok = loadVolumeFromConfig(startupVolume);
+
+    if (!ok) {
+        cout << "Khong the doc file cau hinh. Dung gia tri mac dinh = " << startupVolume << endl;
+    }
+
+    setHardwareVolume(startupVolume);
+
+    /*
+        Giai thich:
+        - Bien khong khoi tao co the chua gia tri rac tu bo nho.
+        - Nguyen tac "Declaration & Initialization" yeu cau khoi tao bien ngay khi khai bao.
+    */
+    pauseScreen();
+}
+
+// ======================================================
+// EXERCISE 2 - Logic Errors due to Variable Shadowing
+// ======================================================
+
+/*
+    Scenario:
+    - Ung dung su dung bien toan cuc g_currentTheme = "day_mode"
+    - Ham loadUserSettings() doc file cau hinh va cap nhat theme
+    - Loi: lap trinh vien vo tinh khai bao lai bien g_currentTheme trong ham
+      => bien toan cuc khong bao gio duoc cap nhat
+
+    Fix:
+    - Khong khai bao lai bien, chi gan truc tiep gia tri.
+*/
+
+string g_currentTheme = "day_mode";
+
+void renderUI() {
+    cout << "Giao dien hien tai: " << g_currentTheme << endl;
+}
+
+void loadUserSettings() {
+    string userPreference = "night_mode"; // Gia lap doc tu file cau hinh
+
+    // Loi: string g_currentTheme = userPreference;
+    // Sua: gan truc tiep khong khai bao lai
+    g_currentTheme = userPreference;
+}
+
+void Exercise2() {
+    clearScreen();
+    cout << "===== Exercise 2: Variable Shadowing =====\n\n";
+
+    cout << "Truoc khi load: ";
+    renderUI();
+
+    loadUserSettings();
+
+    cout << "Sau khi load: ";
+    renderUI();
+
+    /*
+        Giai thich:
+        - Variable shadowing: bien cuc bo che bien toan cuc cung ten.
+        - Lam cho bien toan cuc khong duoc cap nhat.
+        - Cach sua: khong dung lai tu khoa kieu du lieu khi chi muon gan gia tri.
+    */
+    pauseScreen();
+}
+
+// ======================================================
+// EXERCISE 3 - Complex Pointer Declaration for Hardware
+// ======================================================
+
+/*
+    Scenario:
+    - Ung dung dieu khien bo xu ly tin hieu DSP thong qua thanh ghi phan cung tai dia chi co dinh.
+    - Yeu cau:
+        1. Dia chi con tro khong thay doi
+        2. Gia tri ben trong co the bi thay doi boi phan cung => dung volatile
+        3. Chi duoc phep doc, khong duoc phep ghi => dung const
+
+    Fix:
+    - Khai bao dung tu khoa const va volatile o vi tri chinh xac.
+*/
+
+void Exercise3() {
+    clearScreen();
+    cout << "===== Exercise 3: Complex Pointer Declaration =====\n\n";
+
+    // Khai bao dung:
+    const volatile unsigned int* const dsp_status_register =
+        reinterpret_cast<const volatile unsigned int* const>(0x498A003C);
+
+    cout << "Con tro dsp_status_register da duoc khoi tao tai dia chi co dinh 0x498A003C\n";
+
+    /*
+        Giai thich:
+        - volatile: ngan compiler toi uu hoa viec truy cap bo nho.
+        - const (ben trai *): du lieu tro toi la hang (chi doc).
+        - const (ben phai *): ban than con tro khong doi dia chi duoc.
+    */
+    pauseScreen();
+}
+
+// ======================================================
+// EXERCISE 4 - Comments and Code Mismatch
+// ======================================================
+
+/*
+    Scenario:
+    - Ham setPlaybackSpeed() dieu chinh toc do phat nhac.
+    - Comment cu: chap nhan toc do tu 0.5 -> 2.0
+    - Loi: code bi sai dieu kien (speed > 0.75 && speed < 2.5)
+    - Lap trinh vien moi xoa comment, khong nhan ra loi logic ton tai.
+
+    Fix:
+    - Sua dieu kien if thanh (speed >= 0.5 && speed <= 2.0)
+    - Cap nhat lai comment dung 100%.
+*/
+
+void setPlaybackSpeed(float speed) {
+    /*
+     * Sets the playback speed.
+     * Accepts values from 0.5 to 2.0 (inclusive).
+     * Values outside this range will be ignored.
+     */
+    if (speed >= 0.5f && speed <= 2.0f) {
+        cout << "Playback speed set to: " << speed << endl;
+    } else {
+        cout << "Ignored: speed " << speed << " is out of allowed range [0.5, 2.0]." << endl;
+    }
+}
+
+void Exercise4() {
+    clearScreen();
+    cout << "===== Exercise 4: Comments vs Code Mismatch =====\n\n";
+
+    setPlaybackSpeed(0.5f);
+    setPlaybackSpeed(2.0f);
+    setPlaybackSpeed(2.5f);
+
+    /*
+        Giai thich:
+        - Loi logic ban dau la su dung '>' va '<' sai.
+        - Comment loi thoi gay nham lan, khong phan anh dung code.
+        - Can dong bo comment voi hanh vi that de tranh nham lan va mat thoi gian debug.
+    */
+    pauseScreen();
+}
+
+// ======================================================
+// MAIN MENU
+// ======================================================
+int main() {
+    int choice;
+
+    do {
+        clearScreen();
+        cout << "==============================" << endl;
+        cout << "     ASSIGNMENT 2 - MENU     " << endl;
+        cout << "==============================" << endl;
+        cout << "1. Exercise 1 - Uninitialized Variable" << endl;
+        cout << "2. Exercise 2 - Variable Shadowing" << endl;
+        cout << "3. Exercise 3 - Hardware Pointer" << endl;
+        cout << "4. Exercise 4 - Comments Mismatch" << endl;
+        cout << "0. Thoat" << endl;
+        cout << "------------------------------" << endl;
+        cout << "Nhap lua chon: ";
+        cin >> choice;
+        cin.ignore();
+
+        switch (choice) {
+        case 1: Exercise1(); break;
+        case 2: Exercise2(); break;
+        case 3: Exercise3(); break;
+        case 4: Exercise4(); break;
+        case 0:
+            cout << "Thoat chuong trinh..." << endl;
+            break;
+        default:
+            cout << "Lua chon khong hop le." << endl;
+            pauseScreen();
+        }
+
+    } while (choice != 0);
+
+    return 0;
+}

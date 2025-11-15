@@ -1,0 +1,307 @@
+#include <iostream>
+#include <string>
+#include <limits>
+using namespace std;
+
+// ======================================================
+// TIEN ICH DUNG CHUNG
+// ======================================================
+void clearScreen() {
+    system("cls"); // Xoa man hinh (Windows)
+}
+
+void pauseScreen() {
+    cout << "\nNhan Enter de tiep tuc...";
+    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+}
+
+// ======================================================
+// EXERCISE 1 - Media Player and Navigation
+// ======================================================
+
+/*
+    Scenario:
+    - Giao dien xe hoi co 2 man hinh:
+        + Media Player (phat nhac)
+        + Navigation (ban do)
+    - Khi nguoi dung chuyen man hinh, toc do phat nhac van tiep tuc.
+    - Yeu cau: them chuc nang chuyen bai (next song)
+      va reset thoi gian phat ve 0 giay moi khi chuyen bai.
+
+    Fix:
+    - Dung cac bien de mo phong trang thai phat nhac.
+    - Moi lan chuyen bai thi dat time = 0.
+*/
+
+void Exercise1() {
+    clearScreen();
+    cout << "===== Exercise 1: Media Player Simulation =====\n\n";
+
+    int songNumber = 1;  // Bai hat hien tai
+    int playTime = 0;    // Thoi gian phat (giay)
+    bool running = true; // Trang thai chay chuong trinh con
+
+    while (running) {
+        clearScreen();
+        cout << "===== Media Player =====\n";
+        cout << "Song: " << songNumber << "\n";
+        cout << "Play time: " << playTime << "s\n\n";
+        cout << "1. Tang thoi gian phat (+3s)\n";
+        cout << "2. Mo man hinh Navigation (gia lap)\n";
+        cout << "3. Quay lai Media Player\n";
+        cout << "4. Chuyen bai (reset time ve 0)\n";
+        cout << "0. Tro ve menu chinh\n";
+        cout << "Nhap lua chon: ";
+
+        int choice;
+        cin >> choice;
+        cin.ignore();
+
+        switch (choice) {
+        case 1:
+            playTime += 3;
+            break;
+        case 2:
+            cout << "\nDang chuyen sang man hinh Navigation...\n";
+            pauseScreen();
+            break;
+        case 3:
+            cout << "\nQuay lai man hinh Media Player...\n";
+            pauseScreen();
+            break;
+        case 4:
+            songNumber++;
+            playTime = 0;
+            cout << "\nChuyen sang bai so " << songNumber << ". Thoi gian reset ve 0.\n";
+            pauseScreen();
+            break;
+        case 0:
+            running = false;
+            break;
+        default:
+            cout << "Lua chon khong hop le!\n";
+            pauseScreen();
+        }
+    }
+
+    /*
+        Giai thich:
+        - Moi lan chon "1" thi tang thoi gian 3s (gia lap nhac dang phat).
+        - Chon "2" mo Navigation (khong anh huong nhac).
+        - Chon "4" chuyen bai thi dat playTime = 0.
+        - Su dung while(running) de lap lai chuong trinh con.
+    */
+    pauseScreen();
+}
+
+// ======================================================
+// EXERCISE 2 - Temperature Conversion
+// ======================================================
+
+/*
+    Scenario:
+    - Chuong trinh nhap nhiet do tu nguoi dung.
+    - Chuyen doi giua Celsius va Fahrenheit.
+
+    Fix:
+    - Dung cong thuc chinh xac.
+    - Co kiem tra du lieu hop le.
+*/
+
+void Exercise2() {
+    clearScreen();
+    cout << "===== Exercise 2: Temperature Conversion =====\n\n";
+
+    double celsius, fahrenheit;
+
+    cout << "Nhap nhiet do Celsius: ";
+    cin >> celsius;
+    cin.ignore();
+
+    fahrenheit = celsius * 9 / 5 + 32;
+
+    cout << "Nhiet do tuong ung (Fahrenheit): " << fahrenheit << endl;
+
+    /*
+        Giai thich:
+        - Cong thuc: F = C * 9/5 + 32
+        - Vi du: 0C = 32F
+    */
+    pauseScreen();
+}
+
+// ======================================================
+// EXERCISE 3 - Average Calculation
+// ======================================================
+
+/*
+    Scenario:
+    - Tinh diem trung binh cua sinh vien.
+    - Neu diem < 5 => "Truot", nguoc lai => "Dat".
+
+    Fix:
+    - Dung kieu double cho phep thap phan.
+    - Kiem tra input hop le.
+*/
+
+void Exercise3() {
+    clearScreen();
+    cout << "===== Exercise 3: Average Calculation =====\n\n";
+
+    double score1, score2, score3;
+    cout << "Nhap diem mon 1: ";
+    cin >> score1;
+    cout << "Nhap diem mon 2: ";
+    cin >> score2;
+    cout << "Nhap diem mon 3: ";
+    cin >> score3;
+    cin.ignore();
+
+    double avg = (score1 + score2 + score3) / 3.0;
+    cout << "Diem trung binh: " << avg << endl;
+
+    if (avg < 5)
+        cout << "Ket qua: Truot" << endl;
+    else
+        cout << "Ket qua: Dat" << endl;
+
+    /*
+        Giai thich:
+        - Tinh trung binh dung phep chia 3.0 de tranh mat thap phan.
+        - Kiem tra dieu kien < 5 la truot.
+    */
+    pauseScreen();
+}
+
+// ======================================================
+// EXERCISE 4 - Simple Bank Deposit System
+// ======================================================
+
+/*
+    Scenario:
+    - Nguoi dung gui tien vao tai khoan.
+    - Lai suat tinh theo % thang.
+    - Tinh tong tien sau n thang.
+
+    Fix:
+    - Dung cong thuc: A = P * (1 + r/100)^n
+*/
+
+void Exercise4() {
+    clearScreen();
+    cout << "===== Exercise 4: Bank Deposit =====\n\n";
+
+    double principal, rate;
+    int months;
+
+    cout << "Nhap so tien gui ban dau: ";
+    cin >> principal;
+    cout << "Nhap lai suat (phan tram / thang): ";
+    cin >> rate;
+    cout << "Nhap so thang gui: ";
+    cin >> months;
+    cin.ignore();
+
+    double total = principal;
+    for (int i = 0; i < months; i++) {
+        total += total * rate / 100;
+    }
+
+    cout << "Tong tien sau " << months << " thang: " << total << endl;
+
+    /*
+        Giai thich:
+        - Su dung vong lap de tinh lai kep.
+        - Moi thang tien tang = tien_hien_tai * rate / 100.
+    */
+    pauseScreen();
+}
+
+// ======================================================
+// EXERCISE 5 - Simple Password System
+// ======================================================
+
+/*
+    Scenario:
+    - Nguoi dung nhap mat khau.
+    - Chi co 3 lan thu.
+    - Neu dung thi dang nhap thanh cong, sai qua 3 lan thi khoa.
+
+    Fix:
+    - Dung vong lap va bien dem so lan sai.
+*/
+
+void Exercise5() {
+    clearScreen();
+    cout << "===== Exercise 5: Simple Password System =====\n\n";
+
+    string password = "1234";
+    string input;
+    int attempts = 0;
+
+    while (attempts < 3) {
+        cout << "Nhap mat khau: ";
+        getline(cin, input);
+
+        if (input == password) {
+            cout << "Dang nhap thanh cong!" << endl;
+            break;
+        } else {
+            attempts++;
+            cout << "Sai mat khau. Con " << (3 - attempts) << " lan thu.\n";
+        }
+    }
+
+    if (attempts == 3)
+        cout << "Tai khoan da bi khoa!" << endl;
+
+    /*
+        Giai thich:
+        - Moi lan sai tang bien dem attempts.
+        - Neu dung thi thoat vong lap ngay.
+        - Neu sai qua 3 lan thi hien thong bao khoa.
+    */
+    pauseScreen();
+}
+
+// ======================================================
+// MAIN MENU
+// ======================================================
+
+int main() {
+    int choice;
+
+    do {
+        clearScreen();
+        cout << "==============================" << endl;
+        cout << "     ASSIGNMENT 1 - MENU     " << endl;
+        cout << "==============================" << endl;
+        cout << "1. Exercise 1 - Media Player" << endl;
+        cout << "2. Exercise 2 - Temperature Conversion" << endl;
+        cout << "3. Exercise 3 - Average Calculation" << endl;
+        cout << "4. Exercise 4 - Bank Deposit" << endl;
+        cout << "5. Exercise 5 - Password System" << endl;
+        cout << "0. Thoat" << endl;
+        cout << "------------------------------" << endl;
+        cout << "Nhap lua chon: ";
+        cin >> choice;
+        cin.ignore();
+
+        switch (choice) {
+        case 1: Exercise1(); break;
+        case 2: Exercise2(); break;
+        case 3: Exercise3(); break;
+        case 4: Exercise4(); break;
+        case 5: Exercise5(); break;
+        case 0:
+            cout << "Thoat chuong trinh..." << endl;
+            break;
+        default:
+            cout << "Lua chon khong hop le!" << endl;
+            pauseScreen();
+        }
+
+    } while (choice != 0);
+
+    return 0;
+}
